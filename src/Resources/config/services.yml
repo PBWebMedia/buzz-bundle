@@ -1,0 +1,21 @@
+parameters:
+    pbweb_buzz.client_timeout: 5
+
+services:
+    pbweb_buzz.message_factory:
+        class: Buzz\Message\Factory\Factory
+        public: false
+
+    pbweb_buzz.client:
+        class: Buzz\Client\Curl
+        public: false
+        calls:
+            - [setTimeout, [%pbweb_buzz.client_timeout%]]
+
+    pbweb_buzz.browser:
+        class: Buzz\Browser
+        arguments:
+            - @pbweb_buzz.client
+            - @pbweb_buzz.message_factory
+
+    buzz: @pbweb_buzz.browser
