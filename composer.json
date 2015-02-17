@@ -18,7 +18,7 @@
     "phploc/phploc": "~2.0",
     "mayflower/php-codebrowser": "~1.1"
   },
-  "conflict": {
+  "replace": {
     "sensio/buzz-bundle": "*"
   },
   "autoload": {
