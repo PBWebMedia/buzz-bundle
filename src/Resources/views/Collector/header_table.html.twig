@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <th colspan="2">{{ title }}</th>
+    </tr>
+    {% for header in headerList %}
+        {% set header_parts = header|split(': ', 2) %}
+        <tr style="width: 100%;">
+            {% if header_parts|length == 1 %}
+                <td colspan="2">{{ header }}</td>
+            {% else %}
+                <th>{{ header_parts.0 }}</th>
+                <td>{{ header_parts.1 }}</td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+</table>

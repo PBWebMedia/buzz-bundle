@@ -27,5 +27,9 @@ class PbwebBuzzExtension extends Extension
 
         $root = 'pbweb_buzz.';
         $container->setParameter($root . '.client_timeout', $config['client_timeout']);
+
+        if ($config['debug']) {
+            $loader->load('debug.yml');
+        }
     }
 }

@@ -29,7 +29,8 @@ finally, add the bundle to your `AppKernel`:
 You can optionally configure buzz in your `app/config.yml` file
 
     pbweb_buzz:
-        client_timeout: 60 # Defaults to 5
+        client_timeout: 60    # Defaults to 5
+        debug: %kernel.debug% # Enables the data collector in the dev environment
 
 # Usage
 

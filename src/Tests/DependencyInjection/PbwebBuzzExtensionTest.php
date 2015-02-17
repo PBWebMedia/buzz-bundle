@@ -41,4 +41,15 @@ class PbwebBuzzExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(Browser::class, $result);
     }
+
+    public function testDebug()
+    {
+        $config = [['debug' => true]];
+
+        $extension = new PbwebBuzzExtension();
+        $extension->load($config, $container = new ContainerBuilder());
+
+        $this->assertEquals('pbweb_buzz.debug.traceable_browser', (string) $container->getAlias('pbweb_buzz.browser'));
+        $this->assertEquals('pbweb_buzz.debug.traceable_browser', (string) $container->getAlias('buzz'));
+    }
 }
