@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bb80f48ab806d8ae838ffbb789b9a3f1",
+    "hash": "9ba3b4c342b01d7eaf9ca1f4bdc576d7",
     "packages": [
         {
             "name": "kriswallsmith/buzz",
