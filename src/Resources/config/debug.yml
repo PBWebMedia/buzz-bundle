@@ -1,0 +1,22 @@
+services:
+    pbweb_buzz.debug.traceable_browser:
+        class: Pbweb\BuzzBundle\Debug\TraceableBrowser
+        arguments:
+            - @pbweb_buzz.debug.debug_stack
+            - @pbweb_buzz.client
+            - @pbweb_buzz.message_factory
+
+    pbweb_buzz.debug.debug_stack:
+        class: Pbweb\BuzzBundle\Logger\DebugStack
+        arguments:
+            - @debug.stopwatch
+
+    pbweb_buzz.debug.data_collector:
+        class: Pbweb\BuzzBundle\DataCollector\BuzzDataCollector
+        arguments:
+            - @pbweb_buzz.debug.debug_stack
+        tags:
+            - { name: data_collector, id: buzz, template: PbwebBuzzBundle:Collector:buzz.html.twig }
+
+    pbweb_buzz.browser: @pbweb_buzz.debug.traceable_browser
+    buzz: @pbweb_buzz.debug.traceable_browser

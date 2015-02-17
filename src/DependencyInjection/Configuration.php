@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('client_timeout')->defaultValue(5)->end()
+                ->booleanNode('debug')->defaultFalse()->end()
             ->end()
         ->end();
 
