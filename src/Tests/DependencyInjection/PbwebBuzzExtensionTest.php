@@ -42,6 +42,18 @@ class PbwebBuzzExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Browser::class, $result);
     }
 
+    public function testSettings()
+    {
+        $config = [[
+            'client_timeout' => 120,
+        ]];
+
+        $extension = new PbwebBuzzExtension();
+        $extension->load($config, $container = new ContainerBuilder());
+
+        $this->assertSame(120, $container->getParameter('pbweb_buzz.client_timeout'));
+    }
+
     public function testDebug()
     {
         $config = [['debug' => true]];
