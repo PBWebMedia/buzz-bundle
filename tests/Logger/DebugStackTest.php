@@ -1,10 +1,9 @@
 <?php
 
-namespace Pbweb\BuzzBundle\Tests\Logger;
+namespace Pbweb\BuzzBundle\Logger;
 
 use Buzz\Message\Request;
 use Buzz\Message\Response;
-use Pbweb\BuzzBundle\Logger\DebugStack;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
