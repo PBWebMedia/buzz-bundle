@@ -1,8 +1,7 @@
 <?php
 
-namespace Pbweb\BuzzBundle\Tests\DataCollector;
+namespace Pbweb\BuzzBundle\DataCollector;
 
-use Pbweb\BuzzBundle\DataCollector\BuzzDataCollector;
 use Pbweb\BuzzBundle\Logger\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

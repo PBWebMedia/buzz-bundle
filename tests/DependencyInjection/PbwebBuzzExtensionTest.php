@@ -1,9 +1,8 @@
 <?php
 
-namespace Pbweb\BuzzBundle\Tests\DependencyInjection;
+namespace Pbweb\BuzzBundle\DependencyInjection;
 
 use Buzz\Browser;
-use Pbweb\BuzzBundle\DependencyInjection\PbwebBuzzExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**

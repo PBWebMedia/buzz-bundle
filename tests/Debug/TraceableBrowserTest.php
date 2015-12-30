@@ -1,11 +1,10 @@
 <?php
 
-namespace Pbweb\BuzzBundle\Tests\Debug;
+namespace Pbweb\BuzzBundle\Debug;
 
 use Buzz\Client\ClientInterface;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
-use Pbweb\BuzzBundle\Debug\TraceableBrowser;
 use Pbweb\BuzzBundle\Logger\LoggerInterface;
 
 /**
