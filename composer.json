@@ -1,7 +1,7 @@
 {
   "name": "pbweb/buzz-bundle",
   "type": "symfony-bundle",
-  "description": "PBWeb buzz bundle for Symfony",
+  "description": "PB Web Media Buzz bundle for Symfony",
   "keywords": ["buzz", "http", "http client", "bundle", "symfony"],
   "license": "MIT",
   "require": {
