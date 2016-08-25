@@ -1,9 +1,9 @@
 {
   "name": "pbweb/buzz-bundle",
   "type": "symfony-bundle",
-  "description": "PBWeb buzz bundle for Symfony2",
-  "keywords": ["pbweb", "buzz", "http", "bundle", "symfony2"],
-  "license": "proprietary",
+  "description": "PBWeb buzz bundle for Symfony",
+  "keywords": ["buzz", "http", "http client", "bundle", "symfony"],
+  "license": "MIT",
   "require": {
     "php": "^5.5|^7.0",
     "kriswallsmith/buzz": "~0.13",
@@ -13,9 +13,9 @@
     "symfony/stopwatch": "^2.3|^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.3",
+    "phpunit/phpunit": "^5.4",
     "sebastian/phpcpd": "^2.0",
-    "phploc/phploc": "^2.0",
+    "phploc/phploc": "^3.0",
     "nicofuma/php-codebrowser": "^1.1"
   },
   "replace": {

@@ -80,7 +80,7 @@ class BuzzDataCollectorTest extends \PHPUnit_Framework_TestCase
      */
     private function createMockRequest()
     {
-        return $this->getMock(Request::class);
+        return $this->createMock(Request::class);
     }
 
     /**
@@ -88,6 +88,6 @@ class BuzzDataCollectorTest extends \PHPUnit_Framework_TestCase
      */
     private function createMockResponse()
     {
-        return $this->getMock(Response::class);
+        return $this->createMock(Response::class);
     }
 }
