@@ -1,45 +1,56 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
 {% block toolbar %}
-    {% set text %}
-    <div class="sf-toolbar-info-piece">
-        <b>Requests</b>
-        <span>{{ collector.requestCount }}</span>
-    </div>
-    <div class="sf-toolbar-info-piece">
-        <b>Time</b>
-        <span>{{ (collector.time * 1000)|number_format(2) }} ms</span>
-    </div>
-    {% endset %}
+    {% set color_code = '' %}
+    {% if collector.hasError %}
+        {% set color_code = 'red' %}
+    {% endif %}
+
     {% set icon %}
-    <img alt="Buzz" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAcCAYAAABh2p9gAAAABmJLR0QAPwA/AD9DYxu4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wIRCC0ch+Ew2AAAAh9JREFUSMfllb9rE2EYxz93SS65JkOwDmdjJZZrXKSTUjDDU8EsgS7lNqWrk9kMdNI/IEtRSCaXSEYXHQSndz2lg4fOvUF0qNrQ0uTAEAfvwlXaNOcPEHzghff7vDwfvu89z93Bvx7azwkR0YCbwC3gQrgsYAR8BD4BH4DnSqk3pwJFRAfuA3eByzMaegtsK6WenATcBhoA6+vrbG5unkoZj8e0Wi1c141S95RSjydAEUkDX4ECQLFYpFKpTLXmeR6DwSCS75RSV+PAa8BrAMuySKVSM903CAL29vYAxsB5pdSXdHh2A2BjY4NGo5Goq81mE9d1tZDxQo8DV1ZWEo9JrKYKcAxo23Zi4PLy8nGgiFwEFk3TpFQqJQbGTFwXEUMHrgAsLS2haVpi4Pz8PMViESAHXNKBRYBsNvtLr9poNCKXy0VyIQ0sAOzs7OA4TmLw4eEh/X4/klYayEQqnKnfiUzUZQqFAvV6PVFjKpUKtVoNwzAmuWiw2draolqtcnBwgOM4BEEwFWZZFp1OB13XsW2bdrtNfA6Zm5sDwDAMMpnMme5M00TXf5Tn8/lJPlUul9eANc/zGA6HdLtdfN8/E7i/v8/u7i6+79Pr9RgOhwDPNBF5ADz8Qx/sO/pf+wWIyGfgXChXlVLutEIRuQ08DaWrlFo91hTgKLYfzGDm6KR9HPgI+Aa8Ukp5MwBfAu9DWOe0axSSPjMRyfN/x3dFgJRLvG3xZQAAAABJRU5ErkJggg==" />
-    {% set request_status_code_color = collector.hasError ? 'red' : 'green' %}
-    <span class="sf-toolbar-status sf-toolbar-status-{{ request_status_code_color }}">{{ collector.requestCount }}</span>
-    <span class="sf-toolbar-info-piece-additional-detail">in {{ (collector.time * 1000)|number_format(2) }} ms</span>
+        {{ include('@PbwebBuzz/Collector/icon.svg') }}
+        <span class="sf-toolbar-value">{{ collector.requestCount }}</span>
+        <span class="sf-toolbar-info-piece-additional-detail">
+            <span class="sf-toolbar-label">in</span>
+            <span class="sf-toolbar-value">{{ (collector.time * 1000)|number_format }}</span>
+            <span class="sf-toolbar-label">ms</span>
+        </span>
     {% endset %}
-    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': profiler_url } %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Requests</b>
+            <span class="sf-toolbar-status">{{ collector.requestCount }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Time</b>
+            <span>{{ (collector.time * 1000)|number_format(2) }} ms</span>
+        </div>
+    {% endset %}
+
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { link: profiler_url, status: color_code } %}
 {% endblock %}
 
 {% block menu %}
-    <span class="label">
-    <span class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAgCAYAAAABtRhCAAAABmJLR0QAPwA/AD9DYxu4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3wIRCC0F44qYGAAAAp9JREFUSMfFlz9ME3EUxz93aEMLweIN1lKIjTSVgRBTCURN3tZqZGFjciG6aWQ0JuiggwkdZHRja6ILg5Lg9ICACUMJEwOBhBAlCguB1lQKLtx5LVBpKfWbXO7e+/3yPvfe735/zuAfEpEmIAhcPbwCwBUgC2wA3133b6q6VyqecQIkCDwGHgCxk/odo23gC/AR+KCq+ZJAETGBN8AzoJ6zaQl4pKozpYBjwEPb7u7uZnBwENM0T0XY3NxkeHiYvT2nqlkgoarTtuOCCxZxwwA8Hg8+n+/UwIaGhuK+XuA5MH0kQxF5Cryj+soBl1T1F4D7dW5zPvIAt46U1Ab6fD6SySQtLS0VE/b390mlUqRSKdt1B5hxgCISAloBenp66OjoOHNaAwMDbuBd4K27pE4529vbq1JHv9+PZVlO9UTEOFdgUazLwI1aAu1xxBSReuAmQHNzs7sMZ1YkEqH4ozSBa/bHU83sjol33QaGbE9bW1tVgcFgkLq6Ose0p0Wr7Umn06ytreH3+6sCnJubI5/PFwANEXkBvKY2ajKLVpvz1kWTGqsgu1AoRH9/P7u7u4yPj7O1tVVR0FgsRiKRYHFxkcnJSXK53FGgYRiMjIwQCAQA6OzsZGhoqGxYOBwmmUwCEI/HaWxsdK+pf7encDjswAC6urrwer1lA3t7e0vaDnBlZYX19XWnYX5+nmw2WzZwamqKg4ODArvgTCMiL4FXAJZl0dfXRyaTYWJigp2dnYrGMBqNEo/HWVhYYHZ21j0XrQJgDWTVfFrUHOg+td0HPhfvMKq6XE5AERkFnrhcy6oa+W8ZuoGrRW0Z4EcFMVdL2Q5QVZeAT66296q6XQFwDPh5+PwbGC359yQiAmyrarrSsh0eW+4BX1V1w932B6DzvkNXv7sXAAAAAElFTkSuQmCC" alt="" /></span>
-    <strong>Buzz</strong>
-    <span class="count">
-        <span>{{ collector.requestCount }}</span>
-        <span>{{ (collector.time * 1000)|number_format }} ms</span>
+    <span class="label{{ collector.requestCount == 0 ? ' disabled' }}{{ collector.hasError ? ' label-status-error' }}">
+        <span class="icon">{{ include('@PbwebBuzz/Collector/icon.svg') }}</span>
+        <strong>Buzz</strong>
+        {% if collector.requestCount > 0 %}
+            <span class="count">
+                <span>{{ collector.requestCount }}</span>
+            </span>
+        {% endif %}
     </span>
-</span>
 {% endblock %}
 
 {% block panel %}
-    <h2>Requests</h2>
+    <h2>Buzz requests</h2>
 
     {% if collector.requestList|length > 0 %}
         <table class="alt">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Time</th>
+                    <th class="nowrap">#</th>
+                    <th class="nowrap">Time</th>
                     <th style="width: 100%">Info</th>
                 </tr>
             </thead>
@@ -47,31 +58,32 @@
             {% for request in collector.requestList %}
                 {% set status_code_color = request.response and request.response.successful ? '#7a2' : '#a33' %}
                 <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
-                    <td>{{ loop.index }}</td>
-                    <td>{{ (request.executionTime * 1000)|number_format(2) }}&nbsp;ms</td>
+                    <td class="nowrap">{{ loop.index }}</td>
+                    <td class="nowrap">{{ (request.executionTime * 1000)|number_format(2) }}&nbsp;ms</td>
                     <td>
-                        <div onclick="return expandRequest(this);" title="Expand request" data-target-id="code-{{ loop.index }}" style="cursor: pointer;">
-                            <img alt="+" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" style="display: inline;">
-                            <img alt="-" src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" style="display: none;">
-                            <span id="smallcode-{{ loop.index }}">
+                        <div>
+                            <span>
                                 <strong>{{ request.request.method }}</strong>
                                 <strong style="background-color: {{ status_code_color }}; color: white; padding: 1px 5px;">{% if request.response %}{{ request.response.statusCode }}{% else %}ERROR{% endif %}</strong>
                                 <code>{{ request.request.url }}</code>
                             </span>
                         </div>
-                        <div id="code-{{ loop.index }}" style="display: none;">
+                        <div class="text-small font-normal">
+                            <a href="#" class="sf-toggle link-inverse" data-toggle-selector="#code-{{ loop.index }}" data-toggle-alt-content="Hide headers and response data">View headers and response data</a>
+                        </div>
+                        <div id="code-{{ loop.index }}" class="hidden sf-toggle-content sf-toggle-hidden">
                             {% include '@PbwebBuzz/Collector/header_table.html.twig' with {title: 'Request headers', headerList: request.request.headers} %}
 
                             {% if request.request.content|length > 0 %}
-                                <pre style="color: black; background-color: white;">{{ request.request.content }}</pre>
+                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.request.content }}</pre>
                             {% endif %}
 
                             {% if request.response %}
                                 {% include '@PbwebBuzz/Collector/header_table.html.twig' with {title: 'Reponse headers', headerList: request.response.headers} %}
 
-                                <pre style="color: black; background-color: white;">{{ request.response.content }}</pre>
+                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.response.content }}</pre>
                             {% else %}
-                                <pre style="color: black; background-color: white;">{{ request.exception }}</pre>
+                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.exception }}</pre>
                             {% endif %}
                         </div>
                     </td>
@@ -82,25 +94,4 @@
     {% else %}
         <p><em>No requests.</em></p>
     {% endif %}
-
-    <script type="text/javascript">
-        function expandRequest(link) {
-            var sections = link.children;
-            var target = link.getAttribute('data-target-id');
-
-            if (document.getElementById(target).style.display != 'inline') {
-                document.getElementById(target).style.display = 'inline';
-
-                sections[0].style.display = 'none';
-                sections[1].style.display = 'inline';
-            } else {
-                document.getElementById(target).style.display = 'none';
-
-                sections[0].style.display = 'inline';
-                sections[1].style.display = 'none';
-            }
-
-            return false;
-        }
-    </script>
 {% endblock %}
