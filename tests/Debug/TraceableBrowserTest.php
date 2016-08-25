@@ -81,7 +81,7 @@ class TraceableBrowserTest extends \PHPUnit_Framework_TestCase
      */
     private function createMockLogger()
     {
-        return $this->getMock(LoggerInterface::class);
+        return $this->createMock(LoggerInterface::class);
     }
 
     /**
@@ -89,7 +89,7 @@ class TraceableBrowserTest extends \PHPUnit_Framework_TestCase
      */
     private function createMockClient()
     {
-        return $this->getMock(ClientInterface::class);
+        return $this->createMock(ClientInterface::class);
     }
 
     /**

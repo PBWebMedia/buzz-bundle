@@ -60,7 +60,7 @@ class DebugStackTest extends \PHPUnit_Framework_TestCase
      */
     private function createMockStopwatch()
     {
-        return $this->getMock(Stopwatch::class);
+        return $this->createMock(Stopwatch::class);
     }
 
     /**

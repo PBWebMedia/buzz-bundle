@@ -1,7 +1,10 @@
 <table>
-    <tr>
-        <th colspan="2">{{ title }}</th>
-    </tr>
+    <thead>
+        <tr>
+            <th colspan="2">{{ title }}</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for header in headerList %}
         {% set header_parts = header|split(': ', 2) %}
         <tr style="width: 100%;">
@@ -13,4 +16,5 @@
             {% endif %}
         </tr>
     {% endfor %}
+    </tbody>
 </table>
