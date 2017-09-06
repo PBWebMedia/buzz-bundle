@@ -11,6 +11,7 @@ services:
         public: false
         calls:
             - [setTimeout, ["%pbweb_buzz.client_timeout%"]]
+            - [setOption, [10102, ""]] # 10102 = CURLOPT_ENCODING, Enables all supported encodings (gzip!)
 
     pbweb_buzz.browser:
         class: Buzz\Browser
