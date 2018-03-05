@@ -18,5 +18,7 @@ services:
         arguments:
             - "@pbweb_buzz.client"
             - "@pbweb_buzz.message_factory"
+        public: true
 
     buzz: "@pbweb_buzz.browser"
+    Buzz\Browser: "@pbweb_buzz.browser"

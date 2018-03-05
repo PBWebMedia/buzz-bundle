@@ -2,15 +2,13 @@
 
 namespace Pbweb\BuzzBundle\DataCollector;
 
+use Buzz\Message\Response as BuzzResponse;
 use Pbweb\BuzzBundle\Logger\DebugStack;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
-use Buzz\Message\Response as BuzzResponse;
 
 /**
- * Class BuzzDataCollector
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class BuzzDataCollector extends DataCollector
@@ -18,17 +16,11 @@ class BuzzDataCollector extends DataCollector
     /** @var DebugStack */
     private $logger;
 
-    /**
-     * @param DebugStack $logger
-     */
     public function __construct(DebugStack $logger)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         $requestList = $this->logger->getStack();
@@ -42,48 +34,40 @@ class BuzzDataCollector extends DataCollector
             return $carry || ! $response || ! $response->isSuccessful();
         }, false);
 
-        $this->data = array(
+        $this->data = [
             'requestList' => $requestList,
             'requestCount' => count($requestList),
             'executionTime' => $executionTime,
             'hasError' => $hasError,
-        );
+        ];
     }
-    /**
-     * @return int
-     */
-    public function getRequestCount()
+
+    public function reset()
+    {
+        $this->data = [];
+        $this->logger->clear();
+    }
+
+    public function getRequestCount(): int
     {
         return $this->data['requestCount'];
     }
 
-    /**
-     * @return float
-     */
-    public function getTime()
+    public function getTime(): float
     {
         return $this->data['executionTime'];
     }
 
-    /**
-     * @return array
-     */
-    public function getRequestList()
+    public function getRequestList(): array
     {
         return $this->data['requestList'];
     }
 
-    /**
-     * @return bool
-     */
-    public function hasError()
+    public function hasError(): bool
     {
         return $this->data['hasError'];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return 'buzz';

@@ -8,15 +8,10 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class PbwebBuzzExtension
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class PbwebBuzzExtension extends Extension
 {
-    /**
-     * {@inheritDoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();

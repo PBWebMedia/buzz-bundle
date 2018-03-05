@@ -8,8 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Buzz\Message\Response as BuzzResponse;
 
 /**
- * Class BuzzDataCollectorTest
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class BuzzDataCollectorTest extends \PHPUnit_Framework_TestCase
@@ -58,11 +56,9 @@ class BuzzDataCollectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param bool $successful
-     *
      * @return \PHPUnit_Framework_MockObject_MockObject|BuzzResponse
      */
-    private function createMockBuzzResponse($successful)
+    private function createMockBuzzResponse(bool $successful)
     {
         $response = $this->getMockBuilder(BuzzResponse::class)
             ->disableOriginalConstructor()

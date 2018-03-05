@@ -7,8 +7,6 @@ use Buzz\Message\Response;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
- * Class DebugStackTest
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class DebugStackTest extends \PHPUnit_Framework_TestCase

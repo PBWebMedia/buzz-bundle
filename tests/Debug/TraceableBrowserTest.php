@@ -8,8 +8,6 @@ use Buzz\Message\Response;
 use Pbweb\BuzzBundle\Logger\LoggerInterface;
 
 /**
- * Class TraceableBrowserTest
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class TraceableBrowserTest extends \PHPUnit_Framework_TestCase

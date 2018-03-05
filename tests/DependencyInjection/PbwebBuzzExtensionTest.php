@@ -6,8 +6,6 @@ use Buzz\Browser;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class PbwebBuzzExtensionTest
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class PbwebBuzzExtensionTest extends \PHPUnit_Framework_TestCase
@@ -21,6 +19,16 @@ class PbwebBuzzExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->load($config, $container = new ContainerBuilder());
 
         foreach ($container->getDefinitions() as $id => $definition) {
+            if ($id == 'service_container') {
+                continue;
+            }
+            $this->assertStringStartsWith($root, $id);
+        }
+
+        foreach ($container->getAliases() as $id => $definition) {
+            if (strpos($id, '\\') !== -1) {
+                continue;
+            }
             $this->assertStringStartsWith($root, $id);
         }
 

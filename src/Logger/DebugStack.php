@@ -7,17 +7,15 @@ use Buzz\Message\RequestInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
- * Class DebugStack
- *
  * @copyright 2015 PB Web Media B.V.
  */
 class DebugStack implements LoggerInterface
 {
-    /** @var Stopwatch */
+    /** @var ?Stopwatch */
     private $stopwatch;
 
     /** @var array */
-    private $stack = array();
+    private $stack = [];
 
     /** @var float|null */
     private $start = null;
@@ -25,48 +23,44 @@ class DebugStack implements LoggerInterface
     /** @var int */
     private $current = 0;
 
-    /**
-     * @param Stopwatch $stopwatch
-     */
-    public function __construct(Stopwatch $stopwatch = null)
+    public function __construct(?Stopwatch $stopwatch = null)
     {
         $this->stopwatch = $stopwatch;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function start(RequestInterface $request)
     {
         $this->start = microtime(true);
-        $this->stack[++$this->current] = array(
+        $this->stack[++$this->current] = [
             'request' => $request,
             'response' => null,
             'exception' => null,
             'executionTime' => 0,
-        );
+        ];
 
         if ($this->stopwatch) {
             $this->stopwatch->start('buzz', 'buzz');
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function stop(MessageInterface $response)
     {
         $this->stack[$this->current]['response'] = $response;
         $this->doStop();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function fail(\Exception $exception)
     {
         $this->stack[$this->current]['exception'] = (string) $exception;
         $this->doStop();
+    }
+
+    public function clear()
+    {
+        $this->stack = [];
+        $this->start = null;
+        $this->current = 0;
+        $this->stopwatch->reset();
     }
 
     private function doStop()
@@ -78,10 +72,7 @@ class DebugStack implements LoggerInterface
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getStack()
+    public function getStack(): array
     {
         return $this->stack;
     }

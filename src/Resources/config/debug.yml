@@ -5,6 +5,7 @@ services:
             - "@pbweb_buzz.debug.debug_stack"
             - "@pbweb_buzz.client"
             - "@pbweb_buzz.message_factory"
+        public: true
 
     pbweb_buzz.debug.debug_stack:
         class: Pbweb\BuzzBundle\Logger\DebugStack
@@ -20,3 +21,4 @@ services:
 
     pbweb_buzz.browser: "@pbweb_buzz.debug.traceable_browser"
     buzz: "@pbweb_buzz.debug.traceable_browser"
+    Buzz\Browser: "@pbweb_buzz.debug.traceable_browser"
