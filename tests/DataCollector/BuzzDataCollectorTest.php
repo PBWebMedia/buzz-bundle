@@ -3,6 +3,7 @@
 namespace Pbweb\BuzzBundle\DataCollector;
 
 use Pbweb\BuzzBundle\Logger\DebugStack;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Buzz\Message\Response as BuzzResponse;
@@ -10,7 +11,7 @@ use Buzz\Message\Response as BuzzResponse;
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class BuzzDataCollectorTest extends \PHPUnit_Framework_TestCase
+class BuzzDataCollectorTest extends TestCase
 {
     /** @var BuzzDataCollector */
     private $collector;

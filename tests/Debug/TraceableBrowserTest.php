@@ -6,11 +6,12 @@ use Buzz\Client\ClientInterface;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
 use Pbweb\BuzzBundle\Logger\LoggerInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class TraceableBrowserTest extends \PHPUnit_Framework_TestCase
+class TraceableBrowserTest extends TestCase
 {
     /** @var TraceableBrowser */
     private $browser;

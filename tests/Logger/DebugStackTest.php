@@ -4,12 +4,13 @@ namespace Pbweb\BuzzBundle\Logger;
 
 use Buzz\Message\Request;
 use Buzz\Message\Response;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class DebugStackTest extends \PHPUnit_Framework_TestCase
+class DebugStackTest extends TestCase
 {
     /** @var DebugStack */
     private $stack;
