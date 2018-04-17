@@ -51,9 +51,9 @@
       <path value="$PROJECT_DIR$/vendor/pbweb/pbweb-coding-standard" />
       <path value="$PROJECT_DIR$/vendor/escapestudios/symfony2-coding-standard" />
       <path value="$PROJECT_DIR$/vendor/squizlabs/php_codesniffer" />
-      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/vendor/psr/container" />
       <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
