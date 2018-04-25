@@ -9,7 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/escapestudios/symfony2-coding-standard" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/kriswallsmith/buzz" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nicofuma/php-codebrowser" />
