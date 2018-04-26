@@ -2,8 +2,12 @@
 
 namespace Pbweb\BuzzBundle\Logger;
 
+use Buzz\Converter\RequestConverter;
+use Buzz\Converter\ResponseConverter;
 use Buzz\Message\MessageInterface;
 use Buzz\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface as Psr7RequestInterface;
+use Psr\Http\Message\ResponseInterface as Psr7ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
@@ -43,10 +47,20 @@ class DebugStack implements LoggerInterface
         }
     }
 
+    public function startRequest(Psr7RequestInterface $request)
+    {
+        $this->start(RequestConverter::buzz($request));
+    }
+
     public function stop(MessageInterface $response)
     {
         $this->stack[$this->current]['response'] = $response;
         $this->doStop();
+    }
+
+    public function stopRequest(Psr7ResponseInterface $response)
+    {
+        $this->stop(ResponseConverter::buzz($response));
     }
 
     public function fail(\Exception $exception)
@@ -68,7 +82,7 @@ class DebugStack implements LoggerInterface
         $this->stack[$this->current]['executionTime'] = microtime(true) - $this->start;
 
         if ($this->stopwatch) {
-            $this->stopwatch->stop('buzz', 'buzz');
+            $this->stopwatch->stop('buzz');
         }
     }
 

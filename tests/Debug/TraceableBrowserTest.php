@@ -5,8 +5,11 @@ namespace Pbweb\BuzzBundle\Debug;
 use Buzz\Client\ClientInterface;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
+use Mockery\Mock;
 use Pbweb\BuzzBundle\Logger\LoggerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * @copyright 2015 PB Web Media B.V.
@@ -15,99 +18,79 @@ class TraceableBrowserTest extends TestCase
 {
     /** @var TraceableBrowser */
     private $browser;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject|LoggerInterface */
+    /** @var Mock|LoggerInterface */
     private $logger;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject|ClientInterface */
+    /** @var Mock|ClientInterface */
     private $client;
+    /** @var Mock|Request */
+    private $request;
+    /** @var Mock|Response */
+    private $response;
+    /** @var Mock|RequestInterface */
+    private $psr7Request;
+    /** @var Mock|ResponseInterface */
+    private $psr7Response;
 
     protected function setUp()
     {
-        $this->logger = $this->createMockLogger();
-        $this->client = $this->createMockClient();
+        $this->logger = \Mockery::mock(LoggerInterface::class);
+        $this->client = \Mockery::mock(ClientInterface::class);
+
         $this->browser = new TraceableBrowser($this->logger, $this->client);
+
+        $this->request = \Mockery::mock(Request::class);
+        $this->response = \Mockery::mock(Response::class);
+        $this->psr7Request = \Mockery::mock(RequestInterface::class);
+        $this->psr7Response = \Mockery::mock(ResponseInterface::class);
     }
 
-    public function test()
+    public function testSend()
     {
-        $request = $this->createMockRequest();
-        $response = $this->createMockResponse();
+        $this->logger->shouldReceive('start')->with($this->request)->once()->ordered();
+        $this->logger->shouldReceive('stop')->with($this->response)->once()->ordered();
+        $this->client->shouldReceive('send')->with($this->request, $this->response)->once();
 
-        $this->logger->expects($this->at(0))
-            ->method('start')
-            ->with($request);
+        $result = $this->browser->send($this->request, $this->response);
 
-        $this->logger->expects($this->at(1))
-            ->method('stop')
-            ->with($response);
-
-        $this->client->expects($this->once())
-            ->method('send')
-            ->with($request, $response);
-
-        $result = $this->browser->send($request, $response);
-
-        $this->assertSame($response, $result);
+        $this->assertSame($this->response, $result);
     }
 
-    public function testException()
+    public function testSendException()
     {
-        $request = $this->createMockRequest();
-        $response = $this->createMockResponse();
         $exception = new \RuntimeException('Fail!');
 
-        $this->logger->expects($this->at(0))
-            ->method('start')
-            ->with($request);
+        $this->logger->shouldReceive('start')->with($this->request)->once()->ordered();
+        $this->logger->shouldReceive('fail')->with($exception)->once()->ordered();
+        $this->client->shouldReceive('send')->with($this->request, $this->response)->once()->andThrow($exception);
 
-        $this->logger->expects($this->at(1))
-            ->method('fail')
-            ->with($exception);
+        $this->expectException(get_class($exception));
+        $this->expectExceptionMessage($exception->getMessage());
 
-        $this->client->expects($this->once())
-            ->method('send')
-            ->with($request, $response)
-            ->willThrowException($exception);
-
-        $this->setExpectedException(get_class($exception), $exception->getMessage());
-
-        $this->browser->send($request, $response);
+        $this->browser->send($this->request, $this->response);
     }
 
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|LoggerInterface
-     */
-    private function createMockLogger()
+    public function testSendRequest()
     {
-        return $this->createMock(LoggerInterface::class);
+        $this->logger->shouldReceive('startRequest')->with($this->psr7Request)->once()->ordered();
+        $this->logger->shouldReceive('stopRequest')->with($this->psr7Response)->once()->ordered();
+        $this->client->shouldReceive('sendRequest')->with($this->psr7Request)->once()->andReturn($this->psr7Response);
+
+        $result = $this->browser->sendRequest($this->psr7Request);
+
+        $this->assertSame($this->psr7Response, $result);
     }
 
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|ClientInterface
-     */
-    private function createMockClient()
+    public function testSendRequestException()
     {
-        return $this->createMock(ClientInterface::class);
-    }
+        $exception = new \RuntimeException('Fail!');
 
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Request
-     */
-    private function createMockRequest()
-    {
-        return $this->getMockBuilder(Request::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
+        $this->logger->shouldReceive('startRequest')->with($this->psr7Request)->once()->ordered();
+        $this->logger->shouldReceive('fail')->with($exception)->once()->ordered();
+        $this->client->shouldReceive('sendRequest')->with($this->psr7Request)->once()->andThrow($exception);
 
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Response
-     */
-    private function createMockResponse()
-    {
-        return $this->getMockBuilder(Response::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->expectException(get_class($exception));
+        $this->expectExceptionMessage($exception->getMessage());
+
+        $this->browser->sendRequest($this->psr7Request);
     }
 }
