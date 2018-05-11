@@ -34,10 +34,17 @@ class DebugStack implements LoggerInterface
 
     public function start(RequestInterface $request)
     {
+        $this->startRequest(RequestConverter::psr7($request));
+    }
+
+    public function startRequest(Psr7RequestInterface $request)
+    {
         $this->start = microtime(true);
         $this->stack[++$this->current] = [
             'request' => $request,
+            'request_body' => (string) $request->getBody(),
             'response' => null,
+            'response_body' => null,
             'exception' => null,
             'executionTime' => 0,
         ];
@@ -47,20 +54,16 @@ class DebugStack implements LoggerInterface
         }
     }
 
-    public function startRequest(Psr7RequestInterface $request)
-    {
-        $this->start(RequestConverter::buzz($request));
-    }
-
     public function stop(MessageInterface $response)
     {
-        $this->stack[$this->current]['response'] = $response;
-        $this->doStop();
+        $this->stopRequest(ResponseConverter::psr7($response));
     }
 
     public function stopRequest(Psr7ResponseInterface $response)
     {
-        $this->stop(ResponseConverter::buzz($response));
+        $this->stack[$this->current]['response'] = $response;
+        $this->stack[$this->current]['response_body'] = (string) $response->getBody();
+        $this->doStop();
     }
 
     public function fail(\Exception $exception)

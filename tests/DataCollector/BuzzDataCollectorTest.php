@@ -2,11 +2,12 @@
 
 namespace Pbweb\BuzzBundle\DataCollector;
 
+use Mockery\Mock;
 use Pbweb\BuzzBundle\Logger\DebugStack;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Buzz\Message\Response as BuzzResponse;
 
 /**
  * @copyright 2015 PB Web Media B.V.
@@ -15,29 +16,34 @@ class BuzzDataCollectorTest extends TestCase
 {
     /** @var BuzzDataCollector */
     private $collector;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject|DebugStack */
+    /** @var Mock|DebugStack */
     private $logger;
+    /** @var Mock|Request */
+    private $request;
+    /** @var Mock|Response */
+    private $response;
 
     protected function setUp()
     {
-        $this->logger = $this->createMockDebugStack();
+        $this->logger = \Mockery::mock(DebugStack::class);
         $this->collector = new BuzzDataCollector($this->logger);
+
+        $this->request = \Mockery::mock(Request::class);
+        $this->response = \Mockery::mock(Response::class);
     }
 
     public function test()
     {
         $stack = [
-            ['request' => null, 'response' => $this->createMockBuzzResponse(true), 'exception' => null, 'executionTime' => 0.0001],
-            ['request' => null, 'response' => $this->createMockBuzzResponse(true), 'exception' => null, 'executionTime' => 0.0200],
-            ['request' => null, 'response' => $this->createMockBuzzResponse(true), 'exception' => null, 'executionTime' => 1.0030],
+            ['request' => null, 'response' => $this->createMockPsr7Response(200), 'exception' => null, 'executionTime' => 0.0001],
+            ['request' => null, 'response' => $this->createMockPsr7Response(200), 'exception' => null, 'executionTime' => 0.0200],
+            ['request' => null, 'response' => $this->createMockPsr7Response(200), 'exception' => null, 'executionTime' => 1.0030],
         ];
 
-        $this->logger->expects($this->once())
-            ->method('getStack')
-            ->willReturn($stack);
+        $this->logger->shouldReceive('getStack')
+            ->andReturn($stack);
 
-        $this->collector->collect($this->createMockRequest(), $this->createMockResponse());
+        $this->collector->collect($this->request, $this->response);
 
         $this->assertSame(3, $this->collector->getRequestCount());
         $this->assertSame(1.0231, $this->collector->getTime());
@@ -47,44 +53,14 @@ class BuzzDataCollectorTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|DebugStack
+     * @return \PHPUnit_Framework_MockObject_MockObject|ResponseInterface
      */
-    private function createMockDebugStack()
+    private function createMockPsr7Response(int $statusCode)
     {
-        return $this->getMockBuilder(DebugStack::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|BuzzResponse
-     */
-    private function createMockBuzzResponse(bool $successful)
-    {
-        $response = $this->getMockBuilder(BuzzResponse::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $response->expects($this->once())
-            ->method('isSuccessful')
-            ->willReturn($successful);
+        /** @var Mock|ResponseInterface $response */
+        $response = \Mockery::mock(ResponseInterface::class);
+        $response->shouldReceive('getStatusCode')->andReturn($statusCode)->byDefault();
 
         return $response;
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Request
-     */
-    private function createMockRequest()
-    {
-        return $this->createMock(Request::class);
-    }
-
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|Response
-     */
-    private function createMockResponse()
-    {
-        return $this->createMock(Response::class);
     }
 }

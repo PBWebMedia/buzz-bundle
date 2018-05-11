@@ -2,8 +2,8 @@
 
 namespace Pbweb\BuzzBundle\DataCollector;
 
-use Buzz\Message\Response as BuzzResponse;
 use Pbweb\BuzzBundle\Logger\DebugStack;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -27,19 +27,22 @@ class BuzzDataCollector extends DataCollector
 
         $executionTime = array_sum(array_column($requestList, 'executionTime'));
 
-        $hasError = array_reduce($requestList, function ($carry, array $request) {
-            /** @var BuzzResponse $response */
-            $response = $request['response'];
-
-            return $carry || ! $response || ! $response->isSuccessful();
-        }, false);
-
         $this->data = [
             'requestList' => $requestList,
             'requestCount' => count($requestList),
             'executionTime' => $executionTime,
-            'hasError' => $hasError,
+            'hasError' => $this->requestListHasError($requestList),
         ];
+    }
+
+    private function requestListHasError(array $requestList): bool
+    {
+        return array_reduce($requestList, function ($carry, array $request) {
+            /** @var ResponseInterface $response */
+            $response = $request['response'];
+
+            return $carry || ! $response || ! ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300);
+        }, false);
     }
 
     public function reset()

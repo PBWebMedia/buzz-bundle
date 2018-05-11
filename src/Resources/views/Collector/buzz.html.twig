@@ -56,7 +56,7 @@
             </thead>
             <tbody>
             {% for request in collector.requestList %}
-                {% set status_code_color = request.response and request.response.successful ? '#7a2' : '#a33' %}
+                {% set status_code_color = request.response and (request.response.statusCode >= 200 and request.response.statusCode < 300) ? '#7a2' : '#a33' %}
                 <tr class="{{ cycle(['odd', 'even'], loop.index) }}">
                     <td class="nowrap">{{ loop.index }}</td>
                     <td class="nowrap">{{ (request.executionTime * 1000)|number_format(2) }}&nbsp;ms</td>
@@ -65,7 +65,7 @@
                             <span>
                                 <strong>{{ request.request.method }}</strong>
                                 <strong style="background-color: {{ status_code_color }}; color: white; padding: 1px 5px;">{% if request.response %}{{ request.response.statusCode }}{% else %}ERROR{% endif %}</strong>
-                                <code>{{ request.request.url }}</code>
+                                <code>{{ request.request.uri }}</code>
                             </span>
                         </div>
                         <div class="text-small font-normal">
@@ -74,14 +74,14 @@
                         <div id="code-{{ loop.index }}" class="hidden sf-toggle-content sf-toggle-hidden">
                             {% include '@PbwebBuzz/Collector/header_table.html.twig' with {title: 'Request headers', headerList: request.request.headers} %}
 
-                            {% if request.request.content|length > 0 %}
-                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.request.content }}</pre>
+                            {% if request.request_body|length > 0 %}
+                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.request_body }}</pre>
                             {% endif %}
 
                             {% if request.response %}
                                 {% include '@PbwebBuzz/Collector/header_table.html.twig' with {title: 'Reponse headers', headerList: request.response.headers} %}
 
-                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.response.content }}</pre>
+                                <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.response_body }}</pre>
                             {% else %}
                                 <pre style="color: black; background-color: white; white-space: pre-wrap;">{{ request.exception }}</pre>
                             {% endif %}
