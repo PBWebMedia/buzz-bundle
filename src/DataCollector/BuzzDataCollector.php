@@ -27,19 +27,22 @@ class BuzzDataCollector extends DataCollector
 
         $executionTime = array_sum(array_column($requestList, 'executionTime'));
 
-        $hasError = array_reduce($requestList, function ($carry, array $request) {
+        $this->data = [
+            'requestList' => $requestList,
+            'requestCount' => count($requestList),
+            'executionTime' => $executionTime,
+            'hasError' => $this->requestListHasError($requestList),
+        ];
+    }
+
+    private function requestListHasError(array $requestList): bool
+    {
+        return array_reduce($requestList, function ($carry, array $request) {
             /** @var ResponseInterface $response */
             $response = $request['response'];
 
             return $carry || ! $response || ! ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300);
         }, false);
-
-        $this->data = [
-            'requestList' => $requestList,
-            'requestCount' => count($requestList),
-            'executionTime' => $executionTime,
-            'hasError' => $hasError,
-        ];
     }
 
     public function reset()
