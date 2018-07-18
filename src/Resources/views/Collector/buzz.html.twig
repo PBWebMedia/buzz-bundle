@@ -65,7 +65,7 @@
                             <span>
                                 <strong>{{ request.request.method }}</strong>
                                 <strong style="background-color: {{ status_code_color }}; color: white; padding: 1px 5px;">{% if request.response %}{{ request.response.statusCode }}{% else %}ERROR{% endif %}</strong>
-                                <code>{{ request.request.uri }}</code>
+                                <code><a href="{{ request.request.uri }}">{{ request.request.uri }}</a></code>
                             </span>
                         </div>
                         <div class="text-small font-normal">
