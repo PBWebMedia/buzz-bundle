@@ -3,13 +3,13 @@
 namespace Pbweb\BuzzBundle\DependencyInjection;
 
 use Buzz\Browser;
-use PHPUnit\Framework\TestCase;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class PbwebBuzzExtensionTest extends TestCase
+class PbwebBuzzExtensionTest extends MockeryTestCase
 {
     public function testRoot()
     {

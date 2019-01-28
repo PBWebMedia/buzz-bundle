@@ -2,9 +2,9 @@
 
 namespace Pbweb\BuzzBundle\DataCollector;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Mock;
 use Pbweb\BuzzBundle\Logger\DebugStack;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class BuzzDataCollectorTest extends TestCase
+class BuzzDataCollectorTest extends MockeryTestCase
 {
     /** @var BuzzDataCollector */
     private $collector;

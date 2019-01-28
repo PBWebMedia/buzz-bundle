@@ -5,16 +5,16 @@ namespace Pbweb\BuzzBundle\Debug;
 use Buzz\Client\ClientInterface;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Mock;
 use Pbweb\BuzzBundle\Logger\LoggerInterface;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class TraceableBrowserTest extends TestCase
+class TraceableBrowserTest extends MockeryTestCase
 {
     /** @var TraceableBrowser */
     private $browser;

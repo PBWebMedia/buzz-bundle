@@ -2,8 +2,8 @@
 
 namespace Pbweb\BuzzBundle\Logger;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\Mock;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -11,7 +11,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
 /**
  * @copyright 2015 PB Web Media B.V.
  */
-class DebugStackTest extends TestCase
+class DebugStackTest extends MockeryTestCase
 {
     /** @var DebugStack */
     private $stack;
