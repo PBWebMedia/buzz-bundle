@@ -17,7 +17,7 @@ services:
         arguments:
             - "@pbweb_buzz.debug.debug_stack"
         tags:
-            - { name: data_collector, id: buzz, template: '@PbwebBuzzBundle/Collector/buzz.html.twig' }
+            - { name: data_collector, id: buzz, template: '@PbwebBuzz/Collector/buzz.html.twig' }
 
     pbweb_buzz.browser: "@pbweb_buzz.debug.traceable_browser"
     buzz: "@pbweb_buzz.debug.traceable_browser"
