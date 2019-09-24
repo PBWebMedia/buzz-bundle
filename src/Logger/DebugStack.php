@@ -15,15 +15,12 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 class DebugStack implements LoggerInterface
 {
-    /** @var ?Stopwatch */
+    /** @var Stopwatch|null */
     private $stopwatch;
-
     /** @var array */
     private $stack = [];
-
     /** @var float|null */
     private $start = null;
-
     /** @var int */
     private $current = 0;
 
