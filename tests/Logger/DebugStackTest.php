@@ -24,7 +24,7 @@ class DebugStackTest extends MockeryTestCase
     /** @var Mock|ResponseInterface */
     private $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->stopwatch = \Mockery::mock(Stopwatch::class);
         $this->stopwatch->shouldIgnoreMissing();
@@ -50,7 +50,7 @@ class DebugStackTest extends MockeryTestCase
 
         $result = $this->stack->getStack();
 
-        $this->assertInternalType('array', $result);
+        $this->assertIsArray($result);
         $this->assertCount(2, $result);
 
         $this->assertSame($this->requestA, $result[1]['request']);
@@ -58,12 +58,12 @@ class DebugStackTest extends MockeryTestCase
         $this->assertSame($this->response, $result[1]['response']);
         $this->assertSame('body response', $result[1]['response_body']);
         $this->assertNull($result[1]['exception']);
-        $this->assertInternalType('float', $result[1]['executionTime']);
+        $this->assertIsFloat($result[1]['executionTime']);
 
         $this->assertSame($this->requestB, $result[2]['request']);
         $this->assertSame('body request b', $result[2]['request_body']);
         $this->assertNull($result[2]['response']);
         $this->assertSame((string) $exception, $result[2]['exception']);
-        $this->assertInternalType('float', $result[2]['executionTime']);
+        $this->assertIsFloat($result[2]['executionTime']);
     }
 }

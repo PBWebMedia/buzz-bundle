@@ -31,7 +31,7 @@ class TraceableBrowserTest extends MockeryTestCase
     /** @var Mock|ResponseInterface */
     private $psr7Response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = \Mockery::mock(LoggerInterface::class);
         $this->client = \Mockery::mock(ClientInterface::class);

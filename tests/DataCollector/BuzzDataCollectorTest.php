@@ -23,7 +23,7 @@ class BuzzDataCollectorTest extends MockeryTestCase
     /** @var Mock|Response */
     private $response;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = \Mockery::mock(DebugStack::class);
         $this->collector = new BuzzDataCollector($this->logger);
