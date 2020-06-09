@@ -1,8 +1,14 @@
 # PB Web Media Buzz bundle
 
+**This bundle has been abandoned!**
+
+Please use the excellent [symfony/http-client](https://github.com/symfony/http-client) instead
+
+---
+
 Provides a Symfony bundle for the [Buzz HTTP client library](https://github.com/kriswallsmith/Buzz) created by [Kris Wallsmith](http://kriswallsmith.net/).
 
-This bundle also adds an entry to the Symfony debug toolbar which shows the number of requests and the total request time. In the profile you can see more details about these requests like headers and response data. 
+This bundle also adds an entry to the Symfony debug toolbar which shows the number of requests and the total request time. In the profile you can see more details about these requests like headers and response data.
 
 ## Installation
 
@@ -30,7 +36,7 @@ then, add the bundle to your `AppKernel`:
 $browser = $this->container->get('buzz');
 $response = $browser->get('http://pbwebmedia.nl');
 ```
-           
+
 ## Configuration
 
 You can optionally configure buzz in your `app/config.yml` file

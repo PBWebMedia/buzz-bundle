@@ -1,5 +1,6 @@
 {
   "name": "pbweb/buzz-bundle",
+  "abandoned": "symfony/http-client",
   "type": "symfony-bundle",
   "description": "PB Web Media Buzz bundle for Symfony",
   "keywords": ["buzz", "http", "http client", "bundle", "symfony"],
